@@ -31,21 +31,50 @@ class EditProfile extends Component {
     componentDidMount(){
         const userID = this.props.user.id;
         axios.get(`/indevr/users/${userID}`).then(res => {
-            const {first_name, last_name, picture, bio, location, email, github,bitbucket,gitlab,portfolio,website,codepen,twitter, location_public, email_public,github_public,gitlab_public,bitbucket_public, portfolio_public, website_public,codepen_public,twitter_public, skills} = res.data;
+            let {first_name, last_name, picture, bio, location, email, github,bitbucket,gitlab,portfolio,website,codepen,twitter, location_public, email_public,github_public,gitlab_public,bitbucket_public, portfolio_public, website_public,codepen_public,twitter_public, skills} = res.data;
+
             this.setState({
-                first_name,
-                last_name,
-                picture,
-                bio,
-                location: {value: location, public: location_public},
-                email: {value: email, public: email_public},
-                github: {value: github, public: github_public},
-                bitbucket: {value: bitbucket, public: bitbucket_public},
-                gitlab: {value: gitlab, public: gitlab_public},
-                portfolio: {value: portfolio, public: portfolio_public},
-                website: {value: website, public: website_public},
-                codepen: {value: codepen, public: codepen_public},
-                twitter:  {value: twitter, public: twitter_public},
+                first_name: first_name ? first_name : '',
+                last_name: last_name ? last_name : '',
+                picture: picture ? picture : '',
+                bio: bio ? bio : '',
+                location: {
+                    value: location ? location : '',
+                    public: location_public ? true : false
+                },
+                email: {
+                    value: email ? email : '',
+                    public: email_public ? true : false
+                },
+                github: {
+                    value: github ? github : '',
+                    public: github_public ? true : false
+                },
+                bitbucket: {
+                    value: bitbucket ? bitbucket : '',
+                    public: bitbucket_public ? true : false
+                },
+                gitlab: {
+                    value: gitlab ? gitlab : '',
+                    public: gitlab_public ? true : false
+                },
+                portfolio: {
+                    value: portfolio ? portfolio : '',
+                    public: portfolio_public ? true : false
+                },
+                website: {
+                    value: website ? website : '',
+                    public: website_public ? true : false
+                },
+                codepen: {
+                    value: codepen ? codepen : '',
+                    public: codepen_public ? true : false
+                },
+                twitter:  {
+                    value: twitter ? twitter : '',
+                    public: twitter_public ? true : false
+
+                },
                 skills: skills
             })
         }).catch( err => console.log(err))

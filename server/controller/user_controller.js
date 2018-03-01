@@ -16,15 +16,18 @@ module.exports = {
 
     update: (req, res, next) => {
         const {id} = req.params;
-        const {first_name, last_name, bio, email, location, portfolio, website, github, bitbucket, gitlab, codepen, twitter} = req.body;
+        const {first_name, last_name, bio, email, location, portfolio, website, github, bitbucket, gitlab, codepen, twitter, picture} = req.body;
+
         const dbInstance = req.app.get('db')
-            dbInstance.edit_user([id, first_name, last_name, bio, email.value, location.value, portfolio.value, website.value, github.value, bitbucket.value, gitlab.value, codepen.value, twitter.value, email.public, location.public, portfolio.public, website.public, github.public, bitbucket.public, gitlab.public, codepen.public, twitter.public])
-            .then( ()=> {
+            dbInstance.edit_user([id, first_name, last_name, bio, email.value, location.value, portfolio.value, website.value, github.value, bitbucket.value, gitlab.value, codepen.value, twitter.value, email.public, location.public, portfolio.public, website.public, github.public, bitbucket.public, gitlab.public, codepen.public, twitter.public, picture])
+            .then( x => {
+                console.log(x);
                 res.status(200).send('Updated')
             }).catch( err => {
-                console.log(err);
+                console.log('Error updating user info: ', err);
                 res.status(500).send('Oops, something went wrong!')
             })
+
     },
     delete: (req, res, next) => {
         console.log('connect country')
