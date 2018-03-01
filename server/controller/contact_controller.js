@@ -45,8 +45,10 @@ module.exports = {
         db.check_for_existing_contact([userID, friendID]).then(contacts => {
             if(contacts.length){
                 res.status(200).send(true);
+            } else {
+                res.status(200).send(false);
             }
-            res.status(200).send(false);
+
         }).catch(error=>{
             console.error(error);
             res.status(500).send(error);

@@ -175,7 +175,7 @@ class Profile extends Component {
                         <Sidebar>
                             <ProfileImg src={this.state.picture} alt="profile picture" />
                             <h3>{this.state.user}</h3>
-                            <ConnectButton onClick={() => this.connectWithUser()} connected={this.state.connected}/>
+                            {this.props.user && this.props.history.location.pathname.slice(5) != this.props.user.id && <ConnectButton onClick={() => this.connectWithUser()} connected={this.state.connected}/>}
                             <UserDetails>
                                 <p>{this.state.bio}</p>
                                 <div>
