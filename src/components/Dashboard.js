@@ -64,6 +64,10 @@ class Dashboard extends Component {
 
 
     acceptContributor(messageId, project_id, contributor_id){
+        this.setState((prevState, props) => {
+            return {messageCount: prevState.messageCount - 1}
+        })
+        this.setState({ messageCount: this.state.messageCount - 1 })
         axios.post('/indevr/contributors', {project_id: project_id, user_id: contributor_id, owner: false}).then(resp=>{
             axios.delete(`/indevr/messages/${messageId}`).then(resp=>{
                 axios.get(`/indevr/messages?user_id=${this.props.user.id}`).then(resp=> {
@@ -74,6 +78,9 @@ class Dashboard extends Component {
     }
 
     declineContributor = (messageId) => {
+        this.setState((prevState, props) => {
+            return {messageCount: prevState.messageCount - 1}
+        })
         axios.delete(`/indevr/messages/${messageId}`).then(resp=>{
             axios.get(`/indevr/messages?user_id=${this.props.user.id}`).then(resp=> {
                 this.setState({messages: resp.data})
@@ -128,7 +135,10 @@ class Dashboard extends Component {
 
                 <Messages>
                     <div className="clickable" onClick={ () => this.setState({ showMessage: !this.state.showMessage})}>
-                        {this.state.messageCount > 0 && `You have ${this.state.messageCount} ${this.state.messageCount > 1 ? ' messages ' : ' message '}`} {this.state.messageCount > 0 && <i className="far fa-envelope"></i>}
+
+                        {this.state.messageCount > 0 && <div>New messages! <i className="far fa-envelope"></i></div>}
+
+                        {/* {this.state.messageCount > 0 && `You have ${this.state.messageCount} ${this.state.messageCount > 1 ? ' messages ' : ' message '}`} {this.state.messageCount > 0 && <i className="far fa-envelope"></i>} */}
                     </div>
 
                     <ToggleDisplay show={this.state.showMessage}>
@@ -210,7 +220,7 @@ class Dashboard extends Component {
                         </Tabs>
                         <div className="project-wrapper">
                             <ToggleDisplay show={this.state.showMine}>
-                                {this.state.projects.length &&
+                                {this.state.projects.length > 0 &&
                                     this.state.projects.map((project, i) => {
                                         return (
                                             <Link to={`project/${project.project_id}`} key={i}>
@@ -221,7 +231,7 @@ class Dashboard extends Component {
                                             </Link>
                                         )
                                     })}
-                                {!this.state.projects[0] && <div> You have no projects. Explore other projects to contribute</div>}
+                                {!this.state.projects.length && <div className="padding"> You have no projects. Explore other projects to contribute</div>}
                             </ToggleDisplay>
 
                             <ToggleDisplay show={this.state.showExplore}>
@@ -371,7 +381,12 @@ const Projects = glam.div ({
     },
     '& .project-wrapper':{
         backgroundColor: 'var(--main-grey)',
-        paddingTop: 20
+        minHeight: 400,
+        paddingTop: 20,
+        paddingBottom: 20,
+        '& .padding':{
+            padding: 20
+        }
     },
     '@media (max-width: 1080)':{
         marginTop: -50
